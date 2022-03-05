@@ -4,6 +4,9 @@
 <head>
   <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
   <link rel="stylesheet" href="styles/style.css"/>
+  <link rel="shorcut icon" href="https://media.discordapp.net/attachments/768282134564569090/943555402174431292/Novo_projeto_1_A58EDC3.png">
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+  <meta name="description" content="Um jogo de navegador para testar seus reflexos, com uma dificuldade constante para melhor experiência.">
   <title>Accuracy Test</title>
   <style>
   
@@ -38,13 +41,14 @@
   .areaoftest {
     width: 80%;
     height: 3%;
+    max-height: 30px;
     position: fixed;
     color: #ffffff;
     background-color: #ffffff;
     border: 0px solid white;
     border-radius: 15px;
     box-shadow: 0px 0px 10px black;
-    transform: translate(-0%,-0%);
+    transform: translate(11%,20%);
     z-index: 1;
   }
   
@@ -74,21 +78,135 @@
     z-index: 3;
   }
   
+  .appname {
+    width: 70%;
+    z-index: 5;
+  }
+  
+  .Btn {
+    width: 25%;
+    height: 60px;
+    position: relative;    
+    color: red;
+    background: white;
+    border: 3px solid red;
+    border-radius: 10px;
+    font-weight: bold;
+    box-shadow: 0px 0px 15px black;
+    animation: drawbtn 15s linear;
+  }
+  
+  .PointsTxt {
+    color: red;    
+    font-weight: bold;
+    text-shadow: 0px 0px 10px black;
+  }
+  
+  .PointsNbr {  
+    color: red;
+    font-weight: bold;
+    text-shadow: 0px 0px 10px black;
+  }
+  
+  .BtnTxt {
+    text-shadow: 0px 0px 8px black;
+  }
+  
+  @keyframes drawbtn {
+    0% {
+      opacity: 1;
+    }
+    
+    80% {
+      opacity: 1;
+    }
+    
+    100% {
+      opacity: 1;
+    }
+    
+  }
+  
+  .SpaceBtn {
+    width: 0px;
+    height: 0px;
+    z-index: -20;
+    display: hidden;
+    position: fixed;
+  }
+  
+  .SpaceTxt {
+      position: fixed;
+      z-index: -20;
+      opacity: 0;
+    }
+  
+  @media (min-width: 480px) {
+    
+    .Btn {
+      width: 0px;
+      height: 0px;
+      z-index: -20;
+      display: hidden;
+      position: fixed;
+      opacity: 0;
+    }
+    
+    .BtnTxt {
+      z-index: -20;
+      display: hidden;
+      position: fixed;
+      opacity: 0;
+    }
+    
+    .SpaceBtn {
+      width: 90px;
+      height: 60px;
+      position: relative;
+      animation: drawbtn 15s linear;
+      z-index: 1;
+    }
+    
+    .SpaceTxt {
+      position: relative;
+      font-weight: bold;
+      color: white;
+      opacity: 1;
+      z-index: 2;
+      transform: translate(0px,-47px);
+      animation: drawbtn 15s linear;
+    }
+    
+  }
+  
   </style>
 </head>
-<body>
-  <img src="images/fundoimg.png" class="fundo">
+<body id="body">
+  <img src="https://media.discordapp.net/attachments/768282134564569090/943552260909187092/Background.png" class="fundo">
   <div class="screen">
-    <img src="images/appname.png" class="appname">
+    <div align="center">
+    <img src="https://media.discordapp.net/attachments/768282134564569090/943552260657524846/AccurracyTestName.png" class="appname"></div>
     <br>
     <div class="areaoftest" id="areaoftest">
       <div class="acurracybar" id="acurracybar"></div>
       <div class="indicatoroftest" id="indicatoroftest"></div>
     </div>
     <br><br><br>
-    <button onclick="realizeaction ()">Realize Action</button>
+    <div align="center"><button class="Btn" onclick="realizeaction ()"><p class="BtnTxt">Realize Action</p></button>
+      <div><img src="https://media.discordapp.net/attachments/768282134564569090/943911202738831430/computer-keyboard-enter-key-alt-key-clip-art-computer-key-cliparts-77c68147a4e868578e5381d4b30a6a87.png" class="SpaceBtn"><p class="SpaceTxt">SPACE</p></div>
+    </div>
+    <br><br>
+    <div>
+      <div align="center">
+        <h2 class="PointsTxt">Points :</h2>
+        <h1 id="pointsquantity" class="PointsNbr">0</h1>
+      </div>
+    </div>
     <br>
-    <h1 id="pointsquantity"></h1>
+    <output id="ActionSound"></output>
+    <output id="Soundtrack"></output>
+    <output id="Cutscene"></output>
+    <br>
   </div>
 </body>
 <script type="text/javascript">
@@ -99,6 +217,9 @@ var momenttwo = momentprincipal - 1;
 var momentone = momentprincipal - 2;
 var momentfour = momentprincipal + 1;
 var momentfive = momentprincipal + 2;
+var velocity = 0013;
+var complete = 1;
+var fade = document.getElementById('Fade');
 function definetarget () {
   momentprincipal = Math.floor(Math.random() * 90 + 5);
   momenttwo = momentprincipal - 1;
@@ -135,24 +256,91 @@ function realizemovement () {
     				movementindc = "foward";
     };
   };      
-  setTimeout(realizemovement, 0010);
+  setTimeout(realizemovement, velocity);
 };
 realizemovement ();
 function realizeaction () {
   if (indicator === momentprincipal || indicator === momentone || indicator === momenttwo || indicator === momentfour || indicator === momentfive) {
     points ++;
     paused = "true";
-    setTimeout(definetarget, 1000);
+    setTimeout(definetarget, 1200);
     document.getElementById("pointsquantity").innerHTML = points;
-    setTimeout(despause, 1000);
+    PlaySound (1);
+    setTimeout(despause, 1200);
   } else {
     paused = "true";
-    setTimeout(definetarget, 1000);
-    setTimeout(despause, 1000);
+    setTimeout(definetarget, 1200);
+    PlaySound (2);
+    setTimeout(despause, 1200);
   };
 };
+function CheckSpaceButton () {
+  document.addEventListner("keypress", function(e) {
+    if (e.key === "Space") {
+      realizeaction ();
+    };
+  setTimeout(CheckSpaceButton, 0002);
+  });
+};
+CheckSpaceButton ();
 function despause () {
   paused = "false";
 };
+function AtualizeVelocity () {
+  if (points === 0 || points === 1 || points === 2 || points === 3 || points === 4 || points === 5 || points === 6 || points === 7 || points === 8 || points === 9) {
+    velocity = 0013;
+  };
+  if (points === 10 || points === 11 || points === 12 || points === 13 || points === 14 || points === 15 || points === 16 || points === 17 || points === 18 || points === 19) {
+    velocity = 0012;
+  };
+  if (points === 20 || points === 21 || points === 22 || points === 23 || points === 24 || points === 25 || points === 26 || points === 27 || points === 28 || points === 29) {
+    velocity = 0009;
+  };
+  if (points === 30 || points === 31 || points === 32 || points === 33 || points === 34 || points === 35 || points === 36 || points === 37 || points === 38 || points === 39) {
+    velocity = 0008;
+  };
+  if (points === 40 || points === 41 || points === 42 || points === 43 || points === 44 || points === 45 || points === 46 || points === 47 || points === 48 || points === 49) {
+    velocity = 0007;
+  };
+  if (points === 50 || points === 51 || points === 52 || points === 53 || points === 54 || points === 55 || points === 56 || points === 57 || points === 58 || points === 59) {
+    velocity = 0006;
+  };
+  if (points === 60 || points === 61 || points === 62 || points === 63 || points === 64 || points === 65 || points === 66 || points === 67 || points === 68 || points === 69) {
+    velocity = 0005;
+  };
+  if (points === 70 || points === 71 || points === 72 || points === 73 || points === 74 || points === 75 || points === 76 || points === 77 || points === 78 || points === 79) {
+    velocity = 0004;
+  };
+  if (points === 80 || points === 81 || points === 82 || points === 83 || points === 84 || points === 85 || points === 86 || points === 87 || points === 88 || points === 89) {
+    velocity = 0003;
+  };
+  if (points === 90 || points === 91 || points === 92 || points === 93 || points === 94 || points === 95 || points === 96 || points === 97 || points === 98 || points === 99) {
+    velocity = 0002;
+  };
+  if (points >= 100) {
+    velocity = 0001;
+    if (complete === 1) {
+      EndCutscene ();
+      complete --;
+    };
+  };
+  setTimeout(AtualizeVelocity, 0002);
+};
+AtualizeVelocity ();
+function PlaySound (SoundID) {
+  if (SoundID === 1) {
+    document.getElementById('ActionSound').innerHTML = '<audio src="https://cdn.discordapp.com/attachments/847993771081728030/943549739046150184/Passed___Sound.mp3"></audio>';
+    const audio = document.querySelector('audio');
+    audio.play();
+  };
+  if (SoundID === 2) {
+    document.getElementById('ActionSound').innerHTML = '<audio src="https://cdn.discordapp.com/attachments/847993771081728030/943549738861613086/Not_Passed___Sound.mp3"></audio>';
+    const audio = document.querySelector('audio');
+    audio.play();
+  };
+};
+setTimeout(InitialCutscene, 5500);
+function InitialCutscene () {};
+function EndCutscene () {};
 </script>
 </html>
